@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 interface Users {
   id: number;
   name: string;
@@ -28,9 +28,15 @@ interface Company {
   catchPhrase: string;
   bs: string;
 }
-const UsersPage = async () => {
+
+async function getUsers() {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
   const data: Users[] = await res.json();
+  return data;
+}
+
+const UsersPage = async () => {
+  const data = await getUsers();
   return (
     <>
       <h1>Users Page</h1>
