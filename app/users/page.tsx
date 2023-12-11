@@ -1,4 +1,9 @@
-import React, { useEffect } from "react";
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import StateHandler from "../utils/StateBuilder";
+
 interface Users {
   id: number;
   name: string;
@@ -29,26 +34,38 @@ interface Company {
   bs: string;
 }
 
-async function getUsers() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/users");
-  const data: Users[] = await res.json();
-  return data;
-}
+const UsersPage = () => {
+  const getUser = async () =>
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.data);
 
-const UsersPage = async () => {
-  const data = await getUsers();
+  const queryResult = useQuery<Users[]>({
+    queryKey: ["users"],
+    queryFn: getUser,
+  });
+
+  const successLayout = (
+    <ul>
+      {queryResult.data?.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+
+  const loadingLayout = <div>Loading...</div>;
+
+  const errorLayout = <div>Request Failed</div>;
+
   return (
     <>
       <h1>Users Page</h1>
-      {data.length > 0 ? (
-        <ul>
-          {data.map((user) => (
-            <li key={user.id}>{user.name}</li>
-          ))}
-        </ul>
-      ) : (
-        <h1>Error</h1>
-      )}
+      <StateHandler
+        status={queryResult.status}
+        success={successLayout}
+        error={errorLayout}
+        loading={loadingLayout}
+      ></StateHandler>
     </>
   );
 };
