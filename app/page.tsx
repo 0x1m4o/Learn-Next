@@ -5,12 +5,7 @@ export default function Home() {
   return (
     <>
       <h1>Hi</h1>
-      <div>
-        <Link href={"/users"}>Users</Link>
-        <br />
-        <Link href={"/users/detail"}>User Detail</Link>
-      </div>
-      <ProductCard />
+      <Link href={"/users"}>Users</Link>
     </>
   );
 }

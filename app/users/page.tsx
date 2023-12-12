@@ -1,70 +1,34 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import StateHandler from "../utils/StateBuilder";
-
-interface Users {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  address: Address;
-  phone: string;
-  website: string;
-  company: Company;
-}
-
-interface Address {
-  street: string;
-  suite: string;
-  city: string;
-  zipcode: string;
-  geo: Geo;
-}
-
-interface Geo {
-  lat: string;
-  lng: string;
-}
-
-interface Company {
-  name: string;
-  catchPhrase: string;
-  bs: string;
-}
+import StateHandler from "../utils/state_handler";
+import Link from "next/link";
+import { getAllUsers } from "../usecases/features/users/getAllUsers";
+import LoadingLayout from "../components/LoadingLayout";
+import ErrorLayout from "../components/ErrorLayout";
 
 const UsersPage = () => {
-  const getUser = async () =>
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.data);
-
-  const queryResult = useQuery<Users[]>({
-    queryKey: ["users"],
-    queryFn: getUser,
-  });
+  const queryResult = getAllUsers();
 
   const successLayout = (
     <ul>
       {queryResult.data?.map((user) => (
-        <li key={user.id}>{user.name}</li>
+        <li key={user.id}>
+          <Link href={`/users/${user.id}`}>{user.name}</Link>
+        </li>
       ))}
     </ul>
   );
-
-  const loadingLayout = <div>Loading...</div>;
-
-  const errorLayout = <div>Request Failed</div>;
+  const loadingLayout = LoadingLayout();
+  const errorLayout = ErrorLayout();
 
   return (
     <>
       <h1>Users Page</h1>
       <StateHandler
         status={queryResult.status}
-        success={successLayout}
-        error={errorLayout}
-        loading={loadingLayout}
+        successLayout={successLayout}
+        errorLayout={errorLayout}
+        loadingLayout={loadingLayout}
       ></StateHandler>
     </>
   );
