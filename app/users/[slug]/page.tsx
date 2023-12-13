@@ -1,9 +1,9 @@
 "use client";
 
+import StateHandler from "@/app/services/core/utils/state_handler";
 import ErrorLayout from "@/app/components/ErrorLayout";
 import LoadingLayout from "@/app/components/LoadingLayout";
-import { useGetSingleUser } from "@/app/usecases/features/users/getUser";
-import StateHandler from "@/app/utils/state_handler";
+import { useGetSingleUser } from "@/app/services/features/users/usecases/getUser";
 
 export default function UserDetail({ params }: { params: { slug: string } }) {
   const queryResult = useGetSingleUser(params.slug);

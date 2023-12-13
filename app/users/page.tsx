@@ -1,13 +1,25 @@
 "use client";
 
-import StateHandler from "../utils/state_handler";
 import Link from "next/link";
-import { getAllUsers } from "../usecases/features/users/getAllUsers";
-import LoadingLayout from "../components/LoadingLayout";
+import { useFormik } from "formik";
+import StateHandler from "../services/core/utils/state_handler";
 import ErrorLayout from "../components/ErrorLayout";
+import LoadingLayout from "../components/LoadingLayout";
+import { getAllUsers } from "../services/features/users/usecases/getAllUsers";
 
 const UsersPage = () => {
   const queryResult = getAllUsers();
+
+  const formik = useFormik({
+    initialValues: {
+      id: 0,
+      price: 0,
+      name: "",
+      image: "",
+      description: "",
+    },
+    onSubmit: async () => {},
+  });
 
   const successLayout = (
     <ul>

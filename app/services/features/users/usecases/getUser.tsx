@@ -1,5 +1,5 @@
 import { axiosCache } from "@/app/clients/ApiClient";
-import { Users } from "@/app/types/Users";
+import { Users } from "@/app/services/features/users/types/UsersInterface";
 import { useQuery } from "@tanstack/react-query";
 
 const clientGetSingleUser = async (params: string) =>
