@@ -3,13 +3,13 @@
 import StateHandler from "@/app/services/core/utils/state_handler";
 import ErrorLayout from "@/app/components/ErrorLayout";
 import LoadingLayout from "@/app/components/LoadingLayout";
-import { useGetSingleUser } from "@/app/services/features/users/usecases/getUser";
+import { UseGetSingleUser } from "@/app/services/features/users/usecases/getUser";
 
 export default function UserDetail({ params }: { params: { slug: string } }) {
-  const queryResult = useGetSingleUser(params.slug);
-  const successLayout = <div>Success {queryResult.data?.name}</div>;
-  const loadingLayout = LoadingLayout();
+  const queryResult = UseGetSingleUser(params.slug);
   const errorLayout = ErrorLayout();
+  const loadingLayout = LoadingLayout();
+  const successLayout = <div>Success {queryResult.data?.name}</div>;
   return (
     <>
       <h1>{params.slug}</h1>

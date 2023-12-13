@@ -4,11 +4,13 @@ import Link from "next/link";
 import StateHandler from "../services/core/utils/state_handler";
 import ErrorLayout from "../components/ErrorLayout";
 import LoadingLayout from "../components/LoadingLayout";
-import { getAllUsers } from "../services/features/users/usecases/getAllUsers";
+import { GetAllUsers } from "../services/features/users/usecases/getAllUsers";
 
 const UsersPage = () => {
-  const queryResult = getAllUsers();
+  const queryResult = GetAllUsers();
 
+  const loadingLayout = LoadingLayout();
+  const errorLayout = ErrorLayout();
   const successLayout = (
     <ul>
       {queryResult.data?.map((user) => (
@@ -18,9 +20,6 @@ const UsersPage = () => {
       ))}
     </ul>
   );
-  const loadingLayout = LoadingLayout();
-  const errorLayout = ErrorLayout();
-
   return (
     <>
       <h1>Users Page</h1>
