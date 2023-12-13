@@ -1,4 +1,4 @@
-import { axiosCache } from "@/app/clients/ApiClient";
+import { axiosCache } from "@/app/services/core/network/ApiClient";
 import { Users } from "@/app/services/features/users/types/UsersInterface";
 import { useQuery } from "@tanstack/react-query";
 

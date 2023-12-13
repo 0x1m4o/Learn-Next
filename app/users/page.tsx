@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useFormik } from "formik";
 import StateHandler from "../services/core/utils/state_handler";
 import ErrorLayout from "../components/ErrorLayout";
 import LoadingLayout from "../components/LoadingLayout";
@@ -9,17 +8,6 @@ import { getAllUsers } from "../services/features/users/usecases/getAllUsers";
 
 const UsersPage = () => {
   const queryResult = getAllUsers();
-
-  const formik = useFormik({
-    initialValues: {
-      id: 0,
-      price: 0,
-      name: "",
-      image: "",
-      description: "",
-    },
-    onSubmit: async () => {},
-  });
 
   const successLayout = (
     <ul>
