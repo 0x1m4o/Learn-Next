@@ -6,14 +6,16 @@ import {
   faEye,
   faEyeSlash,
   faLock,
+  faRotateRight,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 interface InputFormProps {
   id: string | undefined;
   name: string | undefined;
   title: string;
   icon: IconDefinition;
-  errors?: boolean | string;
-  value: string | number | readonly string[] | undefined;
+  errors?: string;
+  value?: string;
   onChangeHandler: React.ChangeEventHandler;
 }
 
@@ -26,25 +28,28 @@ const InputForm = ({
   value,
   onChangeHandler,
 }: InputFormProps) => {
-  const [visiblePass, setVisiblePass] = useState<boolean>(true);
+  const [visiblePass, setVisiblePass] = useState<boolean>(false);
   const [visibleCPass, setVisibleCPass] = useState<boolean>(false);
 
-  let inputType = "text"; // Default type is text
+  let inputType = "search";
 
   let inputTypePassword = "password";
   let inputTypeCPassword = "password";
 
-  // Check conditions to set input type for password field
-  if (visiblePass && icon === faLock) {
-    inputTypePassword = "text";
+  const isPassword = name == "password";
+  const isConfirmPassword = name == "confirmpassword";
+
+  if (icon === faLock) {
+    if (visiblePass) {
+      inputTypePassword = "search";
+    }
+    if (visibleCPass) {
+      inputTypeCPassword = "search";
+    }
   }
 
-  // Check conditions to set input type for cpassword field
-  if (visibleCPass && icon === faLock) {
-    inputTypeCPassword = "text";
-  }
   return (
-    <div className="mb-3">
+    <div className="mb-3 position-relative">
       <label className="form-label">{title}</label>
       <div className="input-group">
         <span className="input-group-text">
@@ -55,9 +60,9 @@ const InputForm = ({
         </span>
         <input
           type={
-            name == "password"
+            isPassword
               ? inputTypePassword
-              : name == "confirmpassword"
+              : isConfirmPassword
               ? inputTypeCPassword
               : inputType
           }
@@ -66,26 +71,27 @@ const InputForm = ({
           onChange={onChangeHandler}
           id={id}
           name={name}
-          value={value}
+          value={value!}
         />
-        {name == "password" || name == "confirmpassword" ? (
-          <div style={{ width: 45 }} className="eye_icon input-group-text">
-            {
-              <FontAwesomeIcon
-                icon={
-                  name == "password" && visiblePass
-                    ? faEyeSlash
-                    : name == "confirmpassword"
-                    ? faEyeSlash
-                    : faEye
-                }
-                onClick={() => {
-                  return name == "password"
-                    ? setVisiblePass(!visiblePass)
-                    : setVisibleCPass(!visibleCPass);
-                }}
-              />
-            }
+        {isPassword || isConfirmPassword ? (
+          <div
+            className="input-group-text"
+            style={{ width: 45 }}
+            onClick={() => {
+              return isPassword
+                ? setVisiblePass(!visiblePass)
+                : setVisibleCPass(!visibleCPass);
+            }}
+          >
+            <FontAwesomeIcon
+              icon={
+                isPassword && visiblePass
+                  ? faEye
+                  : isConfirmPassword && visibleCPass
+                  ? faEye
+                  : faEyeSlash
+              }
+            />
           </div>
         ) : null}
       </div>

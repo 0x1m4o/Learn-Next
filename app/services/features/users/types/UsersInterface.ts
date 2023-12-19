@@ -1,29 +1,29 @@
 export interface Users {
-  id: number;
-  name: string;
+  _id: string;
   username: string;
-  email: string;
-  address: Address;
-  phone: string;
-  website: string;
-  company: Company;
-}
-
-export interface Address {
-  street: string;
-  suite: string;
+  fullname: string;
   city: string;
-  zipcode: string;
-  geo: Geo;
+  country: string;
+  job: string;
+  avatar: string;
+  about: string;
+  instagram: string;
+  twitter: string;
+  facebook: string;
+  __v: number;
 }
 
-export interface Geo {
-  lat: string;
-  lng: string;
-}
-
-export interface Company {
-  name: string;
-  catchPhrase: string;
-  bs: string;
-}
+export const defaultUserValues: Users = {
+  _id: "",
+  username: "",
+  fullname: "",
+  city: "",
+  country: "",
+  job: "",
+  avatar: "",
+  about: "",
+  instagram: "",
+  twitter: "",
+  facebook: "",
+  __v: 0,
+};
